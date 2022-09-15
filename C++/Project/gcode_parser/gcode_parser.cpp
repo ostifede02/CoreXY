@@ -8,7 +8,7 @@ using namespace std;
 void Get_X(char line[], double* X_value);
 void Get_Y(char line[], double* Y_value);
 bool Is_G1(char line[]);
-
+//test
 int main () {
 string string_line;
 char line[100];
