@@ -1,23 +1,40 @@
 import serial
-import time
-from gcode_parser import SerialData
-
-arduino = serial.Serial(port='COM3', baudrate=9600, timeout=.1)
-gcode = open("test.gcode", "r")
-
-def write_read(x):
-    arduino.write(bytes(x, 'utf-8'))
-    time.sleep(0.05)
-    data = arduino.readline()
-    return data
+from gcode_parser import SerializedData
 
 
-while True:
-    for gcode_line in gcode:
-        if gcode_line[:1] == "G1":
-        #if (gcode_line[0] == "G" and gcode_line[1] == "1"):
-            if((gcode_line.find("X") != -1) or (gcode_line.find("Y") != -1)):
-                num = SerialData(gcode_line)
-    value = write_read(num)
-    print(value) # printing the value
-    time.sleep(4)
+arduino = serial.Serial(port='COM3', baudrate=9600, timeout=0.1)
+gcode = open("C:\\Users\\ostif\\Documents\\CoreXY\\Python\\test1.gcode", "r")
+
+def SerialCommunication(g_cmd):
+    errorflag = True
+    while errorflag:
+        check_comm_str = ""
+
+        sent = arduino.write(SerializedData(gcode_line, g_cmd))
+        print("Sent ", sent, " bytes")
+        
+        while check_comm_str == "":
+            check_comm_str = arduino.readline().decode("utf-8")
+
+        if(check_comm_str == "ACK"):
+            # ACK: Succesfull, go ahed
+            print(SerializedData(gcode_line))
+            print("Succes")
+            errorflag = False
+        elif(check_comm_str == "NAK"):
+            # NAK: Error occured
+            print("Failed")
+            errorflag = True
+        else:
+            print("*******NONE*******")
+            pass
+
+
+for gcode_line in gcode:
+    gcode_cmd = gcode_line.split(" ")[0]
+    if gcode_cmd == "G0":
+        SerialCommunication("G0")
+    elif gcode_cmd == "G1":
+        SerialCommunication("G1")
+    elif gcode_cmd == "G28":
+        pass

@@ -5,7 +5,12 @@
 #define LX_Stepper_STEPS 9
 #define RX_Stepper_DIR 10
 #define RX_Stepper_STEPS 11
+#define LINEAR_ACTUATOR_1 12
 
+struct Position{
+    double x;
+    double y;
+};
 
 
 class CoreXY{
@@ -20,7 +25,7 @@ class CoreXY{
         int steps_per_revolution;
         int speed_mmMin;
         double steps_per_mm;
-        double myPosition[2] = {0,0};
+        Position myPosition;
 
         void Coordinates2Stepper(double newX, double newY);
         void StepperMovement(int L_steps, int R_steps, long int time_in_micros);
@@ -28,6 +33,7 @@ class CoreXY{
         void OneStepLX(void);
         void OneStepRX(void);
         void SetDirection(int L_steps, int R_steps);
+        void gCommand(int g_cmd);
 };
 
 #endif

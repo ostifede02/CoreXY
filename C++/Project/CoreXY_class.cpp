@@ -6,18 +6,19 @@ CoreXY::CoreXY(int steps_per_revolution_input, int speed_mmMin_input, double ste
     steps_per_revolution = steps_per_revolution_input;
     speed_mmMin = speed_mmMin_input;
     steps_per_mm = steps_per_mm_input;
+    myPosition.x = myPosition.y = 0;
     return;
 }
 
 void CoreXY::GoTo_Absolute(double inputX, double inputY){
     double newX, newY = 0;
-    newX = inputX - myPosition[0];
-    newY = inputY - myPosition[1];
+    newX = inputX - myPosition.x;
+    newY = inputY - myPosition.y;
 
     Coordinates2Stepper(newX, newY);
 
-    myPosition[0] = newX; 
-    myPosition[1] = newY;
+    myPosition.x = newX; 
+    myPosition.y = newY;
     return;
 }
 
@@ -25,17 +26,17 @@ void CoreXY::GoTo_Relative(double inputX, double inputY){
 
     Coordinates2Stepper(inputX, inputY);
     
-    myPosition[0] += inputX; 
-    myPosition[1] += inputY;
+    myPosition.x += inputX; 
+    myPosition.y += inputY;
     return;
 }
 
 void CoreXY::GoTo_Home(void){
 
-    Coordinates2Stepper(-myPosition[0], -myPosition[1]);
+    Coordinates2Stepper(-myPosition.x, -myPosition.y);
     
-    myPosition[0] = 0; 
-    myPosition[1] = 0;
+    myPosition.x = 0; 
+    myPosition.y = 0;
     return;
 }
 
@@ -127,5 +128,10 @@ void CoreXY::OneStepRX(void){
     digitalWrite(RX_Stepper_STEPS, HIGH);
     delayMicroseconds(80);
     digitalWrite(RX_Stepper_STEPS, LOW);
+    return;  
+}
+
+void CoreXY::gCommand(int g_cmd){
+    // da implementare
     return;  
 }

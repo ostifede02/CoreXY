@@ -19,52 +19,25 @@ M82 ;absolute extrusion mode
 ; Ender 3 Custom Start G-code
 G92 E0 ; Reset Extruder
 G28 ; Home all axes
-G1 Z2.0 F3000 ; Move Z Axis up little to prevent scratching of Heat Bed
-G1 Y20 X0.1  Z0.3 F5000.0 ; Move to start position
-G1 X0.1 Y200.0 Z0.3 F1500.0 E15 ; Draw the first line
-G1 X0.4 Y200.0 Z0.3 F5000.0 ; Move to side a little
-G1 X0.4 Y20 Z0.3 F1500.0 E30 ; Draw the second line
-G92 E0 ; Reset Extruder
-G1 Z2.0 F3000 ; Move Z Axis up little to prevent scratching of Heat Bed
-G1 X5 Y20 Z0.3 F5000.0 ; Move over to prevent blob squish
-G92 E0
-G92 E0
-G1 F1500 E-6.5
-;LAYER_COUNT:2
-;LAYER:0
-M107
-;MESH:Corpo1.stl
-G0 F6000 X131.851 Y97.385 Z0.1
-;TYPE:WALL-OUTER
-G1 F1500 E0
-G1 F1200 X110 Y84.769 E0.4196
-G1 X88.149 Y97.385 E0.8392
-G1 X88.149 Y122.615 E1.25878
-G1 X110 Y135.231 E1.67838
-G1 X131.851 Y122.615 E2.09798
-G1 X131.851 Y97.385 E2.51756
-G1 F1500 E-3.98244
-G0 F6000 X110 Y84.96
-G0 X88.049 Y97.326
-G1 F1500 E2.51756
-G1 F1200 X110 Y84.654 E2.93907
-G1 X131.951 Y97.326 E3.36058
-G1 X131.951 Y122.674 E3.78212
-G1 X110 Y135.346 E4.20362
-G1 X88.049 Y122.674 E4.62513
-G1 X88.049 Y97.326 E5.04667
-G0 F6000 X88.003 Y97.301
-;TIME_ELAPSED:21.290617
-G1 F1500 E-1.45333
-M140 S0
-G91 ;Relative positioning
-G1 E-2 F2700 ;Retract a bit
-G1 E-2 Z0.2 F2400 ;Retract and raise Z
-G1 X5 Y5 F3000 ;Wipe out
-G1 Z10 ;Raise Z more
-G90 ;Absolute positioning
 
-G1 X0 Y220 ;Present print
+
+    G1 X0 Y200
+    G1 X120 Y0
+    G1 X0 Y-50
+    G1 X-80 Y0
+    G1 X0 Y-50
+    G1 X80 Y0
+    G1 X0 Y-50
+    G1 X-80 Y0
+    G1 X0 Y-50
+    G1 X-40 Y0
+
+G1 X100 Y100
+G1 X100 Y-100
+G1 X-100 Y-100
+G1 X-100 Y100
+
+
 M106 S0 ;Turn-off fan
 M104 S0 ;Turn-off hotend
 M140 S0 ;Turn-off bed
