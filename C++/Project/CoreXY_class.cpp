@@ -54,7 +54,8 @@ void CoreXY::Coordinates2Stepper(double inputX, double inputY){
     // RIGHT Stepper
     R_steps = round(Distance2Step(inputX + inputY));
 
-    StepperMovement(L_steps, R_steps, time_in_micros);
+    // StepperMovement(L_steps, R_steps, time_in_micros);
+    StepperMovementAcceleration(L_steps, R_steps, time_in_micros);
     return;
 }
 
@@ -95,6 +96,79 @@ void CoreXY::StepperMovement(int L_steps, int R_steps, long int time_micros){
   return;
 }
 
+void CoreXY::StepperMovementAcceleration(int L_steps, int R_steps, long int time_micros){
+    SetDirection(L_steps, R_steps);
+    L_steps = abs(L_steps);
+    R_steps = abs(R_steps);
+
+    float L_bezier_coefficent = 1/(L_steps-1);
+    float R_bezier_coefficent = 1/(R_steps-1);
+
+    float L_counter = 0;
+    float R_counter = 0;
+
+    float L_bezier_input = 0;
+    float R_bezier_input = 0;
+
+    int L_delay = 0;
+    int R_delay = 0;
+
+    long int time_dt = 0;
+    long int time_start = micros();
+
+
+    while(true){
+        time_dt = micros() - time_start;
+
+        if ((L_counter < L_steps) && (time_dt >= L_delay)){
+            OneStepLX();
+            L_counter += 1;
+            L_bezier_input = L_bezier_coefficent * L_counter;
+            L_delay = BezierCurve(L_bezier_input) * time_micros;
+        }
+
+        time_dt = micros() - time_start;
+
+        if ((R_counter < R_steps) && (time_dt >= R_delay)){
+            OneStepRX();
+            R_counter += 1;
+            R_bezier_input = R_bezier_coefficent * R_counter;
+            R_delay = BezierCurve(R_bezier_input) * time_micros;
+        }
+
+        if ((L_counter >= L_steps) && (R_counter >= R_steps)){
+            break;
+        }
+    }
+    return;
+}
+
+int CoreXY::BezierCurve(float bezier_input){
+    Point P0{0, 0};
+    Point P1{0, 0.8};
+    Point P2{1, 0.2};
+    Point P3{1, 1};
+    
+    float ya, yb, yc;
+    float ym, yn;
+    float bezier_delay;
+
+    ya = BezierPoint(P0.y, P1.y, bezier_input);
+    yb = BezierPoint(P1.y, P2.y, bezier_input);
+    yc = BezierPoint(P2.y, P3.y, bezier_input);
+
+    ym = BezierPoint(ya ,yb ,bezier_input);
+    yn = BezierPoint(yb ,yc ,bezier_input);
+
+    bezier_delay = BezierPoint(ym, yn, bezier_input);
+
+    return bezier_delay;
+}
+
+float CoreXY::BezierPoint(float n1, float n2, float n){
+    return (n1+((n2 - n1)*n));
+}
+
 void CoreXY::SetDirection(int L_steps, int R_steps){
   // setting the direction
   if(L_steps >= 0){
@@ -132,6 +206,11 @@ void CoreXY::OneStepRX(void){
 }
 
 void CoreXY::gCommand(int g_cmd){
-    // da implementare
+    if(g_cmd == 0){
+        digitalWrite(LINEAR_ACTUATOR_1, HIGH);
+    }
+    else if(g_cmd == 1){
+        digitalWrite(LINEAR_ACTUATOR_1, LOW);
+    }
     return;  
 }

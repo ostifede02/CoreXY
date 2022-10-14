@@ -12,6 +12,11 @@ struct Position{
     double y;
 };
 
+struct Point{
+    float x;
+    float y;
+};
+
 
 class CoreXY{
     public:
@@ -19,6 +24,7 @@ class CoreXY{
         void GoTo_Absolute(double inputX, double inputY);
         void GoTo_Relative(double inputX, double inputY);
         void GoTo_Home(void);
+        void gCommand(int g_cmd);
 
         //void StepperMovement(int L_steps, int R_steps, long int time_in_micros);
     private:
@@ -29,11 +35,13 @@ class CoreXY{
 
         void Coordinates2Stepper(double newX, double newY);
         void StepperMovement(int L_steps, int R_steps, long int time_in_micros);
+        void StepperMovementAcceleration(int L_steps, int R_steps, long int time_micros);
         double Distance2Step(double distance);
         void OneStepLX(void);
         void OneStepRX(void);
         void SetDirection(int L_steps, int R_steps);
-        void gCommand(int g_cmd);
+        int BezierCurve(float bezier_input);
+        float BezierPoint(float n1, float n2, float n);
 };
 
 #endif

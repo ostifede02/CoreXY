@@ -32,10 +32,16 @@ G28 ; Home all axes
     G1 X0 Y-50
     G1 X-40 Y0
 
-G1 X100 Y100
-G1 X100 Y-100
-G1 X-100 Y-100
-G1 X-100 Y100
+    G1 X100 Y100
+    G1 X100 Y-100
+    G1 X-100 Y-100
+    G1 X-100 Y100
+
+G1 X0 Y200
+G1 X0 Y-200
+    G1 X0 Y-100
+    G1 X0 Y-50
+    G1 X0 Y-50
 
 
 M106 S0 ;Turn-off fan

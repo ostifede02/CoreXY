@@ -1,7 +1,7 @@
 #include "Data_parser.h"
 #include "CoreXY_class.h"
 
-CoreXY coreOBJ(400, 11000, 10);
+CoreXY coreOBJ(400, 4000, 10);
 
 void setup()
 {
@@ -9,8 +9,6 @@ void setup()
     pinMode(LX_Stepper_STEPS, OUTPUT);
     pinMode(RX_Stepper_DIR, OUTPUT);
     pinMode(RX_Stepper_STEPS, OUTPUT);
-
-    pinMode(LED_BUILTIN, OUTPUT);
 
     Serial.begin(9600);
     Serial.setTimeout(200);
@@ -35,7 +33,7 @@ void loop()
 
     if(CheckSum(X_value, Y_value, sum_value, xor_value)){
         // push-pull pen
-        // coreOBJ.g_command(g_cmd);
+        // coreOBJ.gCommand(g_cmd);
         // execute coordinates
         coreOBJ.GoTo_Relative(flt_X_value, flt_Y_value);
         // send ACK message
