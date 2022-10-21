@@ -32,6 +32,11 @@ class CoreXY{
         int speed_mmMin;
         double steps_per_mm;
         Position myPosition;
+        
+        Point P0{0, 0};
+        Point P1{0, 0.8};
+        Point P2{1, 0.2};
+        Point P3{1, 1};
 
         void Coordinates2Stepper(double newX, double newY);
         void StepperMovement(int L_steps, int R_steps, long int time_in_micros);
@@ -40,8 +45,7 @@ class CoreXY{
         void OneStepLX(void);
         void OneStepRX(void);
         void SetDirection(int L_steps, int R_steps);
-        int BezierCurve(float bezier_input);
-        float BezierPoint(float n1, float n2, float n);
+        float BezierCurve(float bezier_input);
 };
 
 #endif

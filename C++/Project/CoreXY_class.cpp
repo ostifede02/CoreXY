@@ -143,30 +143,24 @@ void CoreXY::StepperMovementAcceleration(int L_steps, int R_steps, long int time
     return;
 }
 
-int CoreXY::BezierCurve(float bezier_input){
-    Point P0{0, 0};
-    Point P1{0, 0.8};
-    Point P2{1, 0.2};
-    Point P3{1, 1};
+float CoreXY::BezierCurve(float t){
+    float y;
+    /*
+
+    y
+    ^
+    |             /
+    |            /           something like that, but smoother...
+    |   ________/            y  is the image of the t value from the bezier curve
+    |  /
+    | /
+    |/_______________> t
     
-    float ya, yb, yc;
-    float ym, yn;
-    float bezier_delay;
+    */
 
-    ya = BezierPoint(P0.y, P1.y, bezier_input);
-    yb = BezierPoint(P1.y, P2.y, bezier_input);
-    yc = BezierPoint(P2.y, P3.y, bezier_input);
+    y = pow((1-t), 3)*P0.y + 3*pow((1-t), 2)*t*P1.y + 3*(1-t)*pow(t, 2)*P2.y + pow(t, 3)*P3.y;
 
-    ym = BezierPoint(ya ,yb ,bezier_input);
-    yn = BezierPoint(yb ,yc ,bezier_input);
-
-    bezier_delay = BezierPoint(ym, yn, bezier_input);
-
-    return bezier_delay;
-}
-
-float CoreXY::BezierPoint(float n1, float n2, float n){
-    return (n1+((n2 - n1)*n));
+    return y;
 }
 
 void CoreXY::SetDirection(int L_steps, int R_steps){

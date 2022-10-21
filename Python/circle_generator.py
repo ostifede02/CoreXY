@@ -7,9 +7,10 @@ def DrawCircle(radius, resolution):
         x_value = round(radius*m.cos((2*m.pi/resolution)*t), 2)
         y_value = round(radius*m.sin((2*m.pi/resolution)*t), 2)
         
-        gcode.write(f"G1 X{x_value} Y{y_value}\n")
+        gcode.write(f"{x_value} {y_value}\n")
+        # gcode.write(f"G1 X{x_value} Y{y_value}\n")
 
     gcode.close()
     print("File succesfully created!")
     
-DrawCircle(40, 100)
+DrawCircle(20, 6)
