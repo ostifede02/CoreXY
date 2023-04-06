@@ -1,4 +1,4 @@
-# CoreXY
+# CoreXY project
 
 This is a project building and programming a coreXY robot.
 
