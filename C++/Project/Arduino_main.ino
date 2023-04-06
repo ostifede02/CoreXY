@@ -35,7 +35,7 @@ void loop()
         // push-pull pen
         // coreOBJ.gCommand(g_cmd);
         // execute coordinates
-        coreOBJ.GoTo_Relative(flt_X_value, flt_Y_value);
+        coreOBJ.GoTo_Absolute(flt_X_value, flt_Y_value);
         // send ACK message
         Serial.print("ACK");
     }

@@ -1,20 +1,35 @@
 import serial
 
+prev_X = int(0)
+prev_Y = int(0)
+
 arduino = serial.Serial(port='COM3', baudrate=9600, timeout=0.1)
 
 # return the data string to send to arduino
 def SerializedData(gcode_line, g_cmd):
-    start_index = gcode_line.find("X") + 1
-    end_index = gcode_line.find(" ", start_index)
-    X_value = round(float(gcode_line[start_index:end_index]), 1)
-    X_value *= 10
-    X_value = int(X_value)
+    global prev_X
+    global prev_Y
+    
+    if(gcode_line.find("X") != -1):
+        start_index = gcode_line.find("X") + 1
+        end_index = gcode_line.find("Y", start_index)
+        X_value = round(float(gcode_line[start_index:end_index]), 1)
+        X_value *= 10
+        X_value = int(X_value)
+        prev_X = X_value
+    else:
+        X_value = prev_X
 
-    start_index = gcode_line.find("Y") + 1
-    end_index = gcode_line.find(" ", start_index)
-    Y_value = round(float(gcode_line[start_index:end_index]), 1)
-    Y_value *= 10
-    Y_value = int(Y_value)
+    if(gcode_line.find("Y") != -1):       
+        start_index = gcode_line.find("Y") + 1
+        end_index = gcode_line.find(" ", start_index)
+        Y_value = round(float(gcode_line[start_index:end_index]), 1)
+        Y_value *= 10
+        Y_value = int(Y_value)
+        prev_Y = Y_value
+    else:
+        Y_value = prev_Y
+
 
     g_cmd = int(g_cmd[1:])
 
