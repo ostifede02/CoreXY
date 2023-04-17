@@ -6,6 +6,7 @@ This project is about building and programming a coreXY robot from skrach.
 
 ### Hardware
 The slideways are made with pulleys on an 8mm cylindrical guide. The stepper used are two NEMA17 stepper motor and their drivers. All the components are 3D printed and CNC machined.
+
 ![plot](img/CoreXY_1.png)
 
 ### Software
