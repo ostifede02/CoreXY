@@ -15,3 +15,5 @@ The python script reads a gcode file and send each line to the Arduino via UART 
 ![plot](img/acceleration_profile.png)
 
 The robot head has also a computer vision tracking. The algorithm written with openCV, elaborates the brightes pixels in the image, which correspond to the LED mounted on it.
+
+![plot](img/led_detection.png)
